@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+  <head>
+    <meta charset="UTF-8">
+    <title>Hello React</title>
+    <link href="https://fonts.googleapis.com/css?family=Lato:100,400,700" rel="stylesheet">
+
+    <!--put the css file in the same folder, we can apply those styles on React comp-->
+    <link href="./css/styles.css" rel="stylesheet">
+
+    <!--include react library-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.1/react.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.3.1/react-dom.min.js"></script>
+
+    <!--babel to transform JSX-->
+    <script src="https://npmcdn.com/babel-core@5.8.38/browser.min.js"></script>
+  </head>
+
+  <body>
+    <div id="app"></div>
+
+    <!-- script type to tell babel to perform transformation  -->
+    <script type="text/babel">
+    var root = document.querySelector("#app");
+// here we define all components, put them in proper hierarchy
+// Pass the top level component (e.g. App) to render
+// ReactDOM.render(<App />, root)
+
+class Clock extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      date: new Date()
+    };
+  }
+
+  componentDidMount() {
+    this.timerId = setInterval(() => {
+      this.setState({ date: new Date() });
+    }, 1000);
+  }
+
+  // componentWillUnmount() {
+  //   clearInterval(this.timerId);
+  // }
+
+  render() {
+    const { timeZone } = this.props;
+    console.log("this.props", this.props);
+    const self = this;
+    return (
+      <div style={{ margin: 30, fontSize: 28 }}>
+        <i className="fa fa-clock-o" />
+        <span style={{ paddingLeft: 10 }}>
+          It is now {this.state.date.toLocaleString("en-Au", { timeZone })}
+        </span>
+      </div>
+    );
+  }
+}
+
+Clock.defaultProps = {
+  timeZone: "Australia/Brisbane"
+};
+
+ReactDOM.render(<Clock timeZone="Asia/Shanghai" />, root);
+</script>
+
+  </body>
+</html>
